@@ -1,10 +1,10 @@
-# Nome da entidade
+# Livraria Online do Teatro Nacional D. Maria II
 
-- URL: [Link em texto da URL da entidade](URL do site da entidade)
-- Proprietário: Inserir proprietário
-- Candidatura a:  Inserir Selo Bronze, Selo Prata ou Selo Ouro
+- URL: https://livrariaonline.tndm.pt
+- Proprietário: Teatro Nacional D. Maria II
+- Candidatura a:  Selo Prata
   
-## Consulte aqui: [Relatório da Auditoria da X](https://unidade-acesso.github.io/report_00X/relatorio_report_00X.html)
+## Consulte aqui: [Relatório da Auditoria da Livraria Online do Teatro Nacional D. Maria II](https://unidade-acesso.github.io/report_006/relatorio_report_006.html)
 
 ### Recursos de apoio ao relatório:
 - [Guia de utilização do relatório de auditorias](https://unidade-acesso.github.io/reports/guiao.html)
