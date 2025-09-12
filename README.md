@@ -1,6 +1,6 @@
 # Livraria Online do Teatro Nacional D. Maria II
 
-- Data de criação: 
+- Data de criação: 11/08/2025
 - URL: https://livrariaonline.tndm.pt
 - Proprietário: Teatro Nacional D. Maria II
 - Candidatura:  Prata
