@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Relatório Livraria Online do Teatro Nacional D. Maria II</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #000;
+      color: white;
+      padding: 8px;
+      z-index: 100;
+      transition: top 0.3s ease;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+    .visually-hidden-focusable:not(:focus):not(:focus-within) {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0,0,0,0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+    .container {
+      max-width: 900px;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+    .status-ok { 
+      color: #ffffff; 
+      background-color: #0E8A16; 
+      padding: 0.25rem 0.5rem; 
+      border-radius: 50px;
+      font-weight: 500;
+      display: inline-block;
+    }
+    .status-nok { 
+      color: #ffffff; 
+      background-color: #B60205; 
+      padding: 0.25rem 0.5rem; 
+      border-radius: 50px;
+      font-weight: 500;
+      display: inline-block;
+    }
+    .status-melhoria { 
+      color: #856404; 
+      background-color: #fff3cd; 
+      padding: 0.25rem 0.5rem; 
+      border-radius: 50px;
+      font-weight: 500;
+      display: inline-block;
+    }
+        .status-na {
+      color: #000;
+      background-color: #C2E0C6; 
+      padding: 0.25rem 0.5rem; 
+      border-radius: 50px;
+      font-weight: 500;
+      display: inline-block;
+    }
+    .requirement-title { 
+      margin-top: 2rem; 
+    }
+    .requirement-title h4,
+    .requirement-title h3 {
+      color: #000;
+    }
+    .mb-4 ul li a {
+      color: #1e3a8a;
+      text-decoration: none;
+    }
+    .mb-4 ul li a:hover {
+      color: #1e40af;
+      text-decoration: underline;
+    }
+
+    /* Índice (summary) com maior destaque visual e acessível */
+    summary.index-summary {
+      display: list-item; /* manter marcador nativo */
+      font-weight: 700;
+      font-size: 1.25rem !important; /* aumentar o texto */
+      color: #000;
+      padding-left: 0; /* sem recuo extra */
+      border-left: none; /* sem borda lateral */
+      border-radius: 0;
+      cursor: pointer;
+    }
+    summary.index-summary:hover {
+      background-color: transparent; /* sem fundo ao hover */
+    }
+    summary.index-summary:focus {
+      outline: 3px solid #333399;
+      outline-offset: 2px;
+    }
+    /* Aumentar o tamanho da seta nativa (compatibilidade ampla) */
+    summary.index-summary::marker {
+      font-size: 1em;
+    }
+    summary.index-summary::-webkit-details-marker {
+      font-size: 1em;
+    }
+
+    .evidence-list { 
+      list-style-type: disc; 
+      padding-left: 1.5rem; 
+      margin: 1rem 0; 
+    }
+    .evidence-item { 
+      margin: 0.5rem 0; 
+      padding: 0.5rem 0.5rem 0.5rem 1.5rem; 
+      border-radius: 4px;
+      background-color: #f6f6f6;
+      color: #000;
+      margin-left: -1.5rem;
+      list-style-position: inside;
+      list-style: none;
+    }
+    
+    
+    .evidence-item p {
+      margin: 1.5rem 0 1rem 0;
+    }
+    
+
+    .evidence-labels {
+      font-size: 0.85em;
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+    .label-tag {
+      padding: 0.125rem 0.375rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: white;
+      display: inline-block;
+      margin-right: 0.25rem;
+    }
+    .label-checklist { background-color: #5319E7; }
+    .label-auto { background-color: #5319E7; }
+    .label-declaracao { background-color: #5319E7; }
+    .label-outras { background-color: #5319E7; }
+    .label-melhoria { background-color: #FBCA04; color: #000; }
+    .label-na { background-color: #C2E0C6; color: #000; }
+    .label-ok { background-color: #0E8A16; }
+    .label-nok { background-color: #B60205; }
+    .label-requisito { background-color: #0052CC; }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    #checklist-10-aspetos {
+      margin-top: 3.5rem !important;
+    }
+    .report-section {
+      border-bottom: 3px solid #000000;
+      padding-bottom: 2rem;
+      margin-bottom: 2rem;
+    }
+    .report-section:last-child {
+      border-bottom: none;
+    }
+    .avaliacao-manual-section:last-child {
+      border-bottom: none;
+    }
+    .checklist-section {
+      border-bottom: 3px solid #000000;
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .avaliacao-manual-section {
+      border-bottom: 1px solid #000000;
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .checklist-section:last-child {
+      border-bottom: none;
+    }
+
+    #avaliacao-manual {
+      border-bottom: 1px solid #000000 !important;
+    }
+    /* Tabelas: caption por cima */
+    table.table caption {
+      caption-side: top;
+      text-align: left;
+      padding-bottom: 0.5rem;
+      font-weight: 600;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <a href="#conteudo-principal" class="skip-link visually-hidden-focusable">Saltar para o conteúdo principal</a>
+  <div class="container mt-4" id="conteudo-principal">
+    <header class="mb-4">
+      <h1>Relatório Avaliação da Candidatura da Livraria Online do Teatro Nacional D. Maria II</h1>
+    </header>
+
+    <section class="mb-4">
+      <ul>
+        <li>Avaliação feita por: ARTE. I.P. - Núcleo de Experiência e Usabilidade</li>
+        
+        <li>Última atualização: 12/09/2025</li>
+        <li>URL: <a href="https://livrariaonline.tndm.pt" target="_blank" rel="noopener noreferrer">https://livrariaonline.tndm.pt</a></li>
+        <li>Propriedade: Teatro Nacional D. Maria II</li>
+        <li>Candidatura: Selo Prata</li>
+          <li>Progresso (% de requisitos auditados): 100%</li>
+      </ul>
+    </section>
+
+
+
+    <nav class="mb-4 report-section" aria-label="Índice">
+      <details open>
+        <summary class="index-summary">Índice</summary>
+        <ul>
+          <li><a href="#introducao">Introdução</a></li>
+          <li><a href="#declaracao">Declaração de Acessibilidade</a></li>
+          <li><a href="#avaliacao-automatica">Avaliação automática</a></li>
+          
+          <li><a href="#avaliacao-manual">Avaliação manual</a>
+            <ul class="indent-list">
+              
+              <li><a href="#checklist-10-aspetos">Checklist 10 aspetos</a>
+                <ul class="indent-list">
+                  <li><a href="#req-chk10-r-1.2">Requisito 1.2 - É possível selecionar as opções e as subopções do menu quer com rato quer com teclado</a></li><li><a href="#req-chk10-r-2.1">Requisito 2.1 - Existe um título &lt;h1&gt; marcado na página</a></li><li><a href="#req-chk10-r-3.1">Requisito 3.1 - As células que constituem os cabeçalhos da tabela estão marcadas com o elemento &lt;th&gt;</a></li><li><a href="#req-chk10-r-3.2">Requisito 3.2 - A legenda da tabela está marcada com o elemento &lt;caption&gt;</a></li><li><a href="#req-chk10-r-4.3">Requisito 4.3 - É possível localizar e ler as mensagens de erro usando apenas um leitor de ecrã</a></li><li><a href="#req-chk10-r-5.1">Requisito 5.1 - A imagem ou gráfico tem um equivalente alternativo em texto curto e correto</a></li><li><a href="#req-chk10-r-5.2">Requisito 5.2 - O gráfico é acompanhado de uma descrição longa</a></li><li><a href="#req-chk10-r-7.1">Requisito 7.1 - Deve ser possível ativar os botões de controlo do leitor quer com o rato quer com o teclado</a></li><li><a href="#req-chk10-r-7.2">Requisito 7.2 - O vídeo ou o áudio deve conter preferencialmente legendas fechadas sincronizadas. Caso não seja possível, no mínimo, deve disponibilizar-se uma transcrição textual</a></li><li><a href="#req-chk10-r-8.2">Requisito 8.2 - Quando se retira a CSS, a informação aparece numa ordem lógica</a></li><li><a href="#req-chk10-r-8.3">Requisito 8.3 - Quando se retira a CSS, deve ser possível reconhecer a semântica dos diversos elementos</a></li><li><a href="#req-chk10-r-9.2">Requisito 9.2 - Quando uma caixa de diálogo está aberta, a navegação com teclado (Browser ou Tecnologia de apoio) tem de ficar circunscrita aos elementos que compõem a caixa de diálogo</a></li><li><a href="#req-chk10-r-9.3">Requisito 9.3 - A caixa de diálogo tem de ter um mecanismo que permita sair ou fechar a caixa, quer através de teclado quer através de um dispositivo apontador</a></li>
+                </ul>
+              </li>
+              
+              <li><a href="#checklist-conteudo">Checklist Conteúdo</a>
+                <ul class="indent-list">
+                  <li><a href="#req-conteudo-r-1.1">Requisito 1.1 - O sítio Web apresenta um resumo breve do seu propósito, visível sem se fazer scroll</a></li><li><a href="#req-conteudo-r-1.2">Requisito 1.2 - Os termos mais complexos têm uma definição agregada</a></li><li><a href="#req-conteudo-r-1.3">Requisito 1.3 - Cada bloco de conteúdo contém a sua data de atualização</a></li><li><a href="#req-conteudo-r-2.3">Requisito 2.3 - Blocos e linhas de texto com largura não superior a 100 caracteres</a></li><li><a href="#req-conteudo-r-3.1">Requisito 3.1 - Nenhum nível de navegação tem mais de 9 opções</a></li><li><a href="#req-conteudo-r-4.1">Requisito 4.1 - Os documentos longos têm um índice no topo com hiperligações internas para o mesmo</a></li><li><a href="#req-conteudo-r-5.2">Requisito 5.2 - Os elementos interativos têm uma dimensão mínima de 44px CSS (44 pontos) (vertical e horizontal)</a></li>
+                </ul>
+              </li>
+              
+              <li><a href="#checklist-transacao">Checklist Transação</a>
+                <ul class="indent-list">
+                  <li><a href="#req-transacao-r-1.2">Requisito 1.2 - Os formulários com mais de 2 ecrãs de altura devem ser distribuídos por várias páginas</a></li><li><a href="#req-transacao-r-1.3">Requisito 1.3 - Os formulários com mais de uma página têm a sequência de passos ilustrada</a></li><li><a href="#req-transacao-r-2.1">Requisito 2.1 - O tamanho dos campos deve refletir o tamanho previsível dos dados</a></li><li><a href="#req-transacao-r-2.2">Requisito 2.2 - É usada revelação progressiva em vez de campos inativos</a></li><li><a href="#req-transacao-r-4.2">Requisito 4.2 - As ações destrutivas nunca devem ser permanentes; deve ser sempre possível desfazer a operação</a></li><li><a href="#req-transacao-r-4.3">Requisito 4.3 - As mensagens de erro são claramente identificadas junto aos campos de origem</a></li><li><a href="#req-transacao-r-4.4">Requisito 4.4 - As mensagens de erro devem mostrar os passos concretos para a resolução dos mesmos</a></li>
+                </ul>
+              </li>
+              
+            </ul>
+          </li>
+          
+          <li><a href="#etiquetas">Significado das etiquetas utilizadas</a></li>
+        </ul>
+      </details>
+    </nav>
+
+         <section id="introducao" class="mb-5 report-section">
+       <h2 id="req-introducao">Introdução</h2>
+      <p>O website <a href="https://livrariaonline.tndm.pt" target="_blank">https://livrariaonline.tndm.pt</a> <strong><span class="status-nok"><span class="sr-only">etiqueta: </span>não passa</span></strong> nos requisitos mínimos do Selo de Usabilidade e Acessibilidade.</p>
+      
+      <table class="table table-bordered">
+        <caption>Estado das avaliações efetuadas</caption>
+        <thead>
+          <tr>
+            <th>Tipo de avaliação</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Avaliação Automática</td>
+            <td><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></td>
+          </tr>
+          <tr>
+            <td>Avaliação Manual</td>
+            <td><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      
+      <p>Das avaliações manuais efetuadas obtiveram-se os resultados que se sintetizam na tabela seguinte.</p>
+      <table class="table table-bordered">
+        <caption>Níveis de conformidade das avaliações manuais</caption>
+        <thead>
+          <tr>
+            <th>Checklist</th>
+            <th>Conformidade alcançada</th>
+            <th>Resultado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>10 aspetos</td>
+            <td>70.8% (17/24)</td>
+            <td><span class="status-nok"><span class="sr-only">etiqueta: </span>Não passa</span></td>
+          </tr>
+          
+          <tr>
+            <td>Conteúdo</td>
+            <td>64.7% (11/17)</td>
+            <td><span class="status-nok"><span class="sr-only">etiqueta: </span>Não passa</span></td>
+          </tr>
+          
+          <tr>
+            <td>Transação</td>
+            <td>60.0% (6/10)</td>
+            <td><span class="status-nok"><span class="sr-only">etiqueta: </span>Não passa</span></td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <p><strong>Nota:</strong> para passar os requisitos do Selo é necessário alcançar um nível de conformidade superior ou igual a 75% em cada uma das 3 checklists.</p>
+      
+      <p>Verificámos também que a Declaração de Acessibilidade não se encontra corretamente afixada. Consulte o capítulo "Declaração de acessibilidade" para saber o que tem de corrigir.</p>
+    </section>
+
+              
+     <section id="declaracao" class="mb-5 report-section">
+       <h2 id="req-declaracao-declaracao-de-acessibilidade">Declaração de Acessibilidade</h2>
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+       <p>De acordo com o <a href="https://www.acessibilidade.gov.pt/blogue/categoria-acessibilidade/dl-n-o-83-2018-acessibilidade-dos-sitios-web-e-das-aplicacoes-moveis/#n8" target="_blank" rel="noopener noreferrer">artigo 8º do DL n.º 83/2018</a>, todos os sítios web e todas as aplicações móveis têm de ostentar uma Declaração de Acessibilidade. A Declaração é o documento na qual a organização evidencia o trabalho levado a efeito para tornar os seus conteúdos e serviços digitais mais acessíveis, disponibilizando ainda contactos para ajuda adicional.</p>
+      
+       <p>Lista de evidências recolhidas:</p>
+       <ul class="evidence-list">
+         
+             <li class="evidence-item">
+               <p><span class="visually-hidden">evidência: </span><strong>Declaração de acessibilidade - Atualizar a informação da avaliação automática</strong></p>
+               <div class="evidence-labels"><span class="label-tag label-declaracao"><span class="sr-only">etiqueta: </span>dec a11y</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span></div>
+               <div class="issue-content"><p>A informação da Declaração de Acessibilidade deve ser atualizada de acordo com a avaliação automática constante do Observatório. A evidência a colocar na Declaração de Acessibilidade pode simplesmente ser uma hiperligação para a informação constante no Observatório que se encontra na página: <a href="https://observatorio.acessibilidade.gov.pt/directories/25/1750">https://observatorio.acessibilidade.gov.pt/directories/25/1750</a>.</p>
+<img src="https://github.com/user-attachments/assets/33903136-e1bc-44cd-86b5-28efce608368" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p>Figura 1 - Área relativa à avaliação automática na página <a href="https://livrariaonline.tndm.pt/acessibilidade">Declaração de Acessibilidade e Usabilidade</a>.</p>
+</div>
+             </li>
+           
+             <li class="evidence-item">
+               <p><span class="visually-hidden">evidência: </span><strong>Declaração de acessibilidade - Checklists atualizadas</strong></p>
+               <div class="evidence-labels"><span class="label-tag label-declaracao"><span class="sr-only">etiqueta: </span>dec a11y</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span></div>
+               <div class="issue-content"><p>É necessário atualizar a Declaração de Acessibilidade com os ficheiros atuais utilizados na avaliação manual (10 aspectos, conteúdo e transação). </p>
+<img src="https://github.com/user-attachments/assets/0d72224c-c06c-419b-9599-cd4bf5bfd9e7" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p>Figura 1 - Área da página<a href="https://livrariaonline.tndm.pt/acessibilidade"> Declaração de Acessibilidade e Usabilidade</a> relativa às avaliações manuais.</p>
+</div>
+             </li>
+           
+             <li class="evidence-item">
+               <p><span class="visually-hidden">evidência: </span><strong>Declaração de acessibilidade - Submissão das checklists em formato Excel no site</strong></p>
+               <div class="evidence-labels"><span class="label-tag label-declaracao"><span class="sr-only">etiqueta: </span>dec a11y</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span></div>
+               <div class="issue-content"><p>Verificámos que as três checklists (10 Aspetos Críticos de Acessibilidade Funcional, Conteúdo e Transação), atualmente disponíveis no site da Livraria Online do Teatro Nacional D.Maria II, foram publicadas em formato PDF. </p>
+<p>Recomendamos que estas checklists sejam disponibilizadas em formato Excel. </p>
+<p>No email “Selo de Usabilidade e Acessibilidade - Nível Prata”, que enviámos no dia 5 de setembro de 2025, anexamos os três ficheiros em Excel com a avaliação atualizada dos requisitos. </p>
+<p>Sugerimos que completem cada checklist com as evidências descritas no relatório da auditoria e que publiquem estas versões em Excel no site.</p>
+<img src="https://github.com/user-attachments/assets/d0fb34d9-ecf1-48dd-9339-710df3a261bd" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - <a href="https://livrariaonline.tndm.pt/image/catalog/acessibilidade/CheckList-10Aspetos-LivrariaOnline2023-11-02_signed.pdf">Documento</a> relativo aos &quot;10 aspetos críticos de acessibilidade funcional para sítios web&quot; em formato PDF.</em></p>
+</div>
+             </li>
+           
+       </ul>
+     </section>
+
+              
+     <section id="avaliacao-automatica" class="mb-5 report-section">
+       <h2 id="req-automatic-avaliacao-automatica">Avaliação automática</h2>
+       <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+       <p>Para a produção das evidências do presente capítulo, foram utilizadas ferramentas automatizadas de avaliação de requisitos de acessibilidade de acordo com a norma WCAG 2.1 'AA'. A amostra em análise pelas ferramentas é composta pela Homepage mais todas as páginas diretamente hiperligadas por ela, pertencentes ao domínio.</p>
+       
+       <p>Lista de evidências recolhidas:</p>
+       <ul class="evidence-list">
+         
+             <li class="evidence-item">
+               <p><span class="visually-hidden">evidência: </span><strong>Páginas que não ultrapassam o score de 9 pontos</strong></p>
+               <div class="evidence-labels"><span class="label-tag label-auto"><span class="sr-only">etiqueta: </span>av auto</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span></div>
+               <div class="issue-content"><p>Para obter o Selo de Usabilidade e Acessibilidade, os sítios web devem apresentar todas as páginas com valores a partir de 9. </p>
+<p>No caso da Livraria do Teatro Nacional D. Maria II foi localizada 1 página (1,4%) na amostra com valor abaixo de 9 pontos:<br>• <a href="https://livrariaonline.tndm.pt/ecodramaturgia">https://livrariaonline.tndm.pt/ecodramaturgia</a></p>
+<img src="https://github.com/user-attachments/assets/5de4b757-0dd5-4869-a9b3-37dbd0620049" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+<p><em>Figura 1 - Distribuição de pontuações da Livraria Online do Teatro Nacional D. Maria II no Observatório Português da Acessibilidade Web.</em></p>
+<p><strong>Mancha de Acessibilidade</strong></p>
+<p>A mancha de acessibilidade na Figura 2 revela uma conformidade consistente ao longo da amostra.</p>
+<img src="https://github.com/user-attachments/assets/c2aeb184-88ba-4e86-b3f6-696e7eac43b6" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 2 - Mancha de acessibilidade.</em></p>
+<p>A mancha de acessibilidade representa todas as páginas da amostra e as respetivas pontuações. As páginas mais conformes com os critérios de acessibilidade aproximam-se da extremidade do gráfico. As páginas menos conformes com os critérios de acessibilidade são puxadas para o centro.  </p>
+</div>
+             </li>
+           
+             <li class="evidence-item">
+               <p><span class="visually-hidden">evidência: </span><strong>Avaliação Automática - Rocket Validator</strong></p>
+               <div class="evidence-labels"><span class="label-tag label-auto"><span class="sr-only">etiqueta: </span>av auto</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span></div>
+               <div class="issue-content"><p>Efetuámos também uma análise com o validador Rocket Validator que revela a existência de 278 erros de Acessibilidade. Para mais informações partilhamos o <a href="https://rocketvalidator.com/s/8a851fb0-9721-4a44-bb7b-62731204cfa9">relatório da análise automática feita pelo Rocket Validator</a>.</p>
+</div>
+             </li>
+           
+             <li class="evidence-item">
+               <p><span class="visually-hidden">evidência: </span><strong>Avaliação automática - Access Monitor/Observatório</strong></p>
+               <div class="evidence-labels"><span class="label-tag label-auto"><span class="sr-only">etiqueta: </span>av auto</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span></div>
+               <div class="issue-content"><p>Analisámos a amostra com o Access Monitor, de acordo com o método Home+, e obteve-se, no total, 71 páginas. Destas, 71 páginas (100%) não cumprem os testes de conformidade ‘AA’ da WCAG.</p>
+<img src="https://github.com/user-attachments/assets/58daee5d-705a-491c-9a90-73d5a43af7fd" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Resultados da amostra do site da Livraria Online do Teatro Nacional D. Maria II no Observatório Português da Acessibilidade Web.</em></p>
+</div>
+             </li>
+           
+       </ul>
+     </section>
+
+         
+     <section id="avaliacao-manual" class="mb-5 mt-5 avaliacao-manual-section">
+       <h2 id="req-avaliacao-manual">Avaliação manual</h2>
+       <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+       <p>A avaliação manual é feita por inspeção perícial dos diversos requisitos constantes da:</p>
+       <ul>
+         <li>checklist <strong>10 aspetos críticos de acessibilidade funcional</strong>;</li>
+         <li>checklist <strong>Conteúdo</strong> (se candidato a Selo Bronze);</li>
+         <li>checklist <strong>Transação</strong> (se candidato a Selo Prata).</li>
+       </ul>
+       <p>Sempre que os auditores localizam uma falha grave de um requisito de acessibilidade que, embora não faça parte do esquema de requisitos do Selo, se enquadre no âmbito das violações das WCAG 2.1 'AA' do W3C, tal referência é anotada em "Outras violações" do presente capítulo. Apesar destas violações não se apresentarem com carácter vinculativo no esquema de requisitos do Selo, recomenda-se que as mesmas sejam corrigidas.</p>
+
+      
+      <div class="checklist-section">
+        <h3 id="checklist-10-aspetos">Checklist 10 aspetos</h3>
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        
+    <p><strong>Nível de conformidade:</strong></p>
+    <ul>
+      <li><strong>Checklist 10 aspetos</strong>: 70.8% (17/24)
+        <ul>
+          <li>Requisitos avaliados: 27 (3 N/A excluídos, 24 aplicáveis)</li>
+          <li>Requisitos OK: 17</li>
+          <li>Requisitos NOK: 7</li>
+          <li>Requisitos N/A: 3</li>
+        </ul>
+      </li>
+    </ul>
+    
+        
+        <h4 class="requirement-title" id="req-chk10-r-1.2">Requisito 1.2 - É possível selecionar as opções e as subopções do menu quer com rato quer com teclado</h4>
+      <div class="requirement-content">
+        <p><span class="status-ok"><span class="sr-only">etiqueta: </span>OK</span> (no entanto contém 2 melhorias que se recomenda efetuar)</p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Não é possível navegar para a opção seguinte do menu sem percorrer as subopções</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-melhoria"><span class="sr-only">etiqueta: </span>melhoria</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 1.2</span></div>
+                <div class="issue-content"><blockquote>
+<p>É possível selecionar as opções e as subopções do menu quer com rato quer com teclado.</p>
+<ul>
+<li><a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n12">Ver requisito 1.2 da lista 10 aspetos</a></li>
+</ul>
+</blockquote>
+<p>O sub-menu não deve abrir automaticamente quando tem o foco das tecnologias de apoio, para não tornar obrigatória a sua leitura antes de ir para a próxima opção.</p>
+<p>No código, é necessário implementar um evento que permita ao atributo aria-expanded mostrar ou esconder as subopções. Recomenda-se criar um evento de clique que irá abrir ou fechar o sub-menu de acordo com o estado da opção do 1º nível.</p>
+<p>As melhorias devem garantir:</p>
+<ul>
+<li>Que as opções de 1º nível do menu fiquem colapsadas até o utilizador escolher aceder às subopções com a tecla “Enter”.</li>
+<li>Que as opções de 1º nível colapsem quando o foco do teclado não está numa delas.</li>
+<li>Que seja possível sair das subopções com a tecla “Escape”.</li>
+</ul>
+<p>Para garantir esse comportamento, as opções de 1º nível do menu de navegação devem ter:</p>
+<ul>
+<li>O atributo ARIA <code>aria-expanded</code> para as tecnologias de apoio identificarem que existem subopções e quando o menu está colapsado (<code>aria-expanded=”false”</code>) ou expandido (<code>aria-expanded=”true”</code>).</li>
+<li>O atributo ARIA <code>aria-current</code> para as tecnologias de apoio identificarem estruturalmente em qual das opções do menu é que o utilizador se encontra.</li>
+</ul>
+<p>Para mais informação sobre boas práticas de implementação dos menus e submenus, podem consultar a <a href="https://www.w3.org/WAI/tutorials/menus/flyout/#keyboard-users">página da W3C</a>.</p>
+<img src="https://github.com/user-attachments/assets/3baa14f3-beef-41b1-8be7-788e96bb8278" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Ao testar o menu principal com o leitor de ecrã VoiceOver, verificou-se que, quando o foco está na primeira opção com submenu e se carrega na seta para baixo, o leitor de ecrã entra nesse submenu em vez de passar para a opção principal seguinte.</em></p>
+</div>
+              </li>
+            
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Falta de Indicação Visual Clara para Submenus no Menu Principal</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-melhoria"><span class="sr-only">etiqueta: </span>melhoria</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 1.2</span></div>
+                <div class="issue-content"><blockquote>
+<p>É possível selecionar as opções e as subopções do menu quer com rato quer com teclado.</p>
+<ul>
+<li><a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n12">Ver requisito 1.2 da lista 10 aspetos</a></li>
+</ul>
+</blockquote>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-chk10-r-2.1">Requisito 2.1 - Existe um título &lt;h1&gt; marcado na página</h4>
+      <div class="requirement-content">
+        <p><span class="status-ok"><span class="sr-only">etiqueta: </span>OK</span> (no entanto contém 1 melhoria que se recomenda efetuar)</p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>O logótipo principal da homepage tem um link para a própria página</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-melhoria"><span class="sr-only">etiqueta: </span>melhoria</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 2.1</span></div>
+                <div class="issue-content"><blockquote>
+<p>Existe um título <code>&lt;h1&gt;</code> marcado na página.</p>
+<ul>
+<li><a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n21">Ver requisito 2.1 da lista 10 aspetos</a></li>
+</ul>
+</blockquote>
+<p>Na homepage, o logótipo principal deve estar sem hiperligação para não direcionar o utilizador para a página onde já se encontra. Já nas páginas interiores, o logótipo principal já pode ter um link para a homepage. </p>
+<p>No site da <a href="https://livrariaonline.tndm.pt/index.php?route=common/home">Livraria Online do Teatro Nacional D.Maria II</a>, o logótipo principal da homepage tem um link para a própria página (ver Figura 1). </p>
+<p>Recomendamos que seja retirado o link atualmente atribuído ao logótipo na página principal, mantendo esse link nas restantes páginas interiores. Nestas, o texto alternativo do logotipo deve ser, por exemplo, <code>alt=”Ir para a página principal da Livraria Online do Teatro Nacional D. Maria II”</code>.</p>
+<img src="https://github.com/user-attachments/assets/992af11e-0b5d-4067-9e51-e14599120208" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+<p>Figura 1 - Página inicial da Livraria Online do Teatro Nacional D. Maria II na qual o logótipo reencaminha para a própria página.</p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-chk10-r-3.1">Requisito 3.1 - As células que constituem os cabeçalhos da tabela estão marcadas com o elemento &lt;th&gt;</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Ausência de cabeçalhos estruturados em tabela</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 3.1</span></div>
+                <div class="issue-content"><blockquote>
+<p>As células que constituem os cabeçalhos da tabela estão marcadas com o elemento <code>&lt;th&gt;</code>.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n31">ver requisito 3.1 na lista 10 aspetos</a></p>
+</blockquote>
+<p>As tabelas de dados devem identificar o seu conteúdo com elementos semânticos adequados para que os leitores de ecrã consigam referenciar corretamente os cabeçalhos e identificar a tipologia dos dados de cada coluna e linha. No caso dos cabeçalhos das tabelas, estes devem estar marcados com o elemento <code>&lt;th&gt;</code>.</p>
+<p>A modal que incorpora o carrinho de compras, na página <a href="https://livrariaonline.tndm.pt/edicoes-tndm-ii/textos-de-teatro">Textos de Teatro</a>, contém uma tabela para especificação dos produtos no carrinho de compras. Nesta tabela, os elementos <code>&lt;th&gt;</code> estão presentes mas são utilizados para apresentar dados — como o título do produto — em vez de servirem como cabeçalhos de coluna (Figura 1). Isso dificulta a leitura da tabela por parte dos leitores de ecrã, que dependem dos cabeçalhos para interpretar corretamente o conteúdo de cada célula.</p>
+<p>Recomendamos que seja adicionado um elemento <code>&lt;thead&gt;</code> com células <code>&lt;th&gt;</code> que descrevam cada coluna dos cabeçalhos — como, por exemplo, “Imagem”, “Produto”, “Quantidade”, “Preço” e “Ação”. As células de dados devem ser inseridas dentro de um <code>&lt;tbody&gt;</code>, utilizando células do tipo <code>&lt;td&gt;</code>. Recomendamos também remover o símbolo “x” das células que indicam a quantidade, para evitar confusão na leitura por tecnologias assistivas.</p>
+<p>Sugestão de possível código a implementar:</p>
+<pre><code>&lt;table&gt;
+  &lt;caption&gt;Lista de compras&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Imagem&lt;/th&gt;
+      &lt;th&gt;Produto&lt;/th&gt;
+      &lt;th&gt;Quantidade&lt;/th&gt;
+      &lt;th&gt;Preço&lt;/th&gt;
+      &lt;th&gt;Ação&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;
+
+&lt;!-- IMAGE_PLACEHOLDER_0 --&gt;
+
+&lt;/td&gt;
+      &lt;td&gt;A cacatua verde&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;9,50€&lt;/td&gt;
+      &lt;td&gt;&lt;button aria-label=&quot;Remover o livro A cacatua verde&quot;&gt;❌&lt;/button&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    
+    &lt;tr&gt;
+      &lt;td&gt;
+
+&lt;!-- IMAGE_PLACEHOLDER_1 --&gt;
+
+&lt;/td&gt;
+      &lt;td&gt;A constituição&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;10€&lt;/td&gt;
+      &lt;td&gt;&lt;button aria-label=&quot;Remover o livro A constituição&quot;&gt;❌&lt;/button&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</code></pre>
+<img src="https://github.com/user-attachments/assets/651f3921-c515-424e-a1a6-e221acd6df98" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 5 - Código da tabela do carrinho de compras inspecionado através do Google Inspector. Elementos <code>&lt;th&gt;</code> destacados com contorno vermelho.</em></p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-chk10-r-3.2">Requisito 3.2 - A legenda da tabela está marcada com o elemento &lt;caption&gt;</h4>
+      <div class="requirement-content">
+        <p><span class="status-ok"><span class="sr-only">etiqueta: </span>OK</span> (no entanto contém 1 melhoria que se recomenda efetuar)</p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Tabela sem legenda visível</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-melhoria"><span class="sr-only">etiqueta: </span>melhoria</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 3.2</span></div>
+                <div class="issue-content"><blockquote>
+<p>A legenda da tabela está marcada com o elemento <code>&lt;caption&gt;</code><br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n32">ver requisito 3.2 na lista 10 aspetos</a></p>
+</blockquote>
+<p>As tabelas de dados devem ter uma legenda ou título marcado com o elemento <caption> de forma a dar um maior contexto e ajudar a associar rapidamente a tabela ao seu conteúdo.</p>
+<p>Verificámos que a tabela que especifica os produtos e que integra a modal do carrinho de compras na página <a href="https://livrariaonline.tndm.pt/edicoes-tndm-ii/textos-de-teatro">Textos de Teatro</a>, possui uma legenda(“Lista de compras”) que está oculta para todos os dispositivos exceto leitores de ecrã. </p>
+<p>Recomendamos remover a classe <code>sr-only</code> do elemento <code>&lt;caption&gt;</code> para que a legenda também seja exibida visualmente.</p>
+<img src="https://github.com/user-attachments/assets/786be6c4-11da-4a40-b12b-a13ff1ae152a" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Código relativo à legenda da tabela dentro da modal do carrinho de compras. A classe sr-only esconde a legenda de todos os dispositivos exceto leitores de ecrã.</em></p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-chk10-r-4.3">Requisito 4.3 - É possível localizar e ler as mensagens de erro usando apenas um leitor de ecrã</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>As mensagens de erro são exibidas uma de cada vez</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 4.3</span></div>
+                <div class="issue-content"><blockquote>
+<p>É possível localizar e ler as mensagens de erro usando apenas um leitor de ecrã.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n43">ver requisito 4.3 na lista 10 aspetos</a></p>
+</blockquote>
+<p>As mensagens de erro são exibidas uma de cada vez. Embora seja possível apresentar apenas uma mensagem por submissão, esta abordagem pode dificultar a compreensão do que necessita de ser corrigido, especialmente quando existem múltiplos campos com erros. Ao mostrar apenas uma mensagem, o utilizador pode não identificar todos os problemas de forma clara e eficiente. </p>
+<p>No formulário de <a href="https://livrariaonline.tndm.pt/index.php?route=account/register">Registo de Conta de Cliente</a>, as mensagens de erro são apresentadas junto ao campo. No entanto, quando existem vários campos com erros de preenchimento, apenas uma mensagem é exibida de cada vez. Por exemplo, se sete campos obrigatórios não estiverem preenchidos — “NIF”, “Código postal”, “País”, “Distrito”, “Senha”, “Confirmar senha” e &quot;Por favor, complete a validação&quot; —, ao submeter o formulário, apenas a mensagem de erro do campo NIF será apresentada. Isto impede que o utilizador identifique os restantes sete campos obrigatórios não preenchidos, uma vez que não existe qualquer mensagem a indicar quais são (Figura 1).</p>
+<img src="https://github.com/user-attachments/assets/6673cd1a-a939-4453-874d-35c1a1b35321" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><code>Figura 1 - Formulário de Registo de Conta de Cliente com vários campos obrigatórios por preencher(“NIF”, “Códigos postal”, “País”, “Distrito”, “Senha”, “Confirmar senha” e &quot;Por favor, complete a validação&quot;) e apenas é apresentada uma mensagem de erro associada a “NIF”.</code></p>
+<p>As mensagens de erro devem estar sempre visíveis para o utilizador, independentemente de o campo estar ou não em foco. Recomenda se rever o formulário para garantir que cada campo com dados incorretos ou por preencher apresente a respetiva mensagem de erro junto a si. Na primeira submissão, todas as mensagens de erro devem ser apresentadas em simultâneo, permitindo ao utilizador identificar e corrigir todos os problemas de uma só vez. Uma solução eficaz é criar um elemento de mensagem de erro específico para cada campo e associá lo a esse campo através do atributo <code>aria-describedby</code>. </p>
+<p>Para mais informações sobre boas práticas na colocação de mensagens de erro em formulários, pode ser consultada a página da WAI sobre <a href="https://www.w3.org/WAI/tutorials/forms/notifications/#listing-errors:~:text=code%20in%20full.-,On%20focus%20change,-In%20some%20cases">Notificações para utilizadores</a>.</p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-chk10-r-5.1">Requisito 5.1 - A imagem ou gráfico tem um equivalente alternativo em texto curto e correto</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>As imagens decorativas dos cards contêm texto alternativo que repete a informação do card</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-melhoria"><span class="sr-only">etiqueta: </span>melhoria</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 5.1</span></div>
+                <div class="issue-content"><p>A imagem ou gráfico tem um equivalente em texto curto e correto.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n51">ver requisito 5.1 na lista 10 aspetos</a></p>
+<p>No caso das imagens dos cards(cartões) que sejam acompanhadas de texto, devem ser consideradas como decorativas e não funcionais. Sendo assim, o seu texto alternativo deve ser nulo ou devem ser adicionadas como background-image em CSS.</p>
+<p>Na página <a href="https://livrariaonline.tndm.pt/edicoes-tndm-ii/textos-de-teatro">Textos de Teatro</a> existem cards com imagem e texto, nos quais os links associados às imagens possuem texto alternativo. O leitor de ecrã, ao ler o card, repete a informação “A Cacatua Verde” duas vezes, pois está colocada no link do card e no título da imagem.</p>
+<p>É possível observar que o card contém:<br>•	Texto alternativo no link: <code>aria-label=&quot;A cacatua verde&quot;</code><br>•	O rótulo na imagem: <code>&lt;strong&gt;A cacatua verde&lt;/strong&gt;</code></p>
+<p>Para evitar que o leitor de ecrã repita várias vezes a mesma informação, as imagens dos cards devem ser consideradas como decorativas e colocado o texto alternativo nulo da seguinte forma: (<code>alt=””</code>). Outra forma é adicionar as imagens via CSS.</p>
+<p>Para esta situação, deve-se também utilizar a técnica do <a href="https://getbootstrap.com/docs/4.4/utilities/stretched-link/">link esticado</a>, garantindo assim que o leitor de ecrã lê a informação relevante apenas uma vez.</p>
+<img src="https://github.com/user-attachments/assets/e34a7172-2aa7-48ad-a0e1-208261660e97" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Leitor de ecrã lê título de cada livro duas vezes. Primeiro, através do texto alternativo associado à imagem-link do livro e depois no texto que contém o título do livro.</em></p>
+</div>
+              </li>
+            
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>As imagens funcionais não possuem um texto alternativo</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 5.1</span></div>
+                <div class="issue-content"><p>A imagem ou gráfico tem um equivalente em texto curto e correto.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n51">ver requisito 5.1 na lista 10 aspetos</a></p>
+<p>As imagens funcionais devem incluir um texto alternativo que sirva de síntese do seu propósito e que seja lido pelo leitor de ecrã.</p>
+<p>Na <a href="https://livrariaonline.tndm.pt/">página inicial</a> existem imagens não decorativas sem texto alternativo, por exemplo:</p>
+<p>• No carrossel “Em Destaque”, as setas de navegação (esquerda e direita) não possuem texto alternativo que indique a sua função.</p>
+<p>• No rodapé, na secção “Contactos”, são usados ícones isolados para representar as diferentes formas de contacto com a Livraria (morada, telefone, e-mail e site do Teatro) mas nenhum destes ícones tem texto alternativo.</p>
+<img src="https://github.com/user-attachments/assets/dea983e1-470a-4aaf-87be-8e07d9cc0375" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Seta de navegação do carrossel &quot;Em Destaque&quot; analisada através do ANDI e do Google Inspector. Sem texto alternativo.</em></p>
+<img src="https://github.com/user-attachments/assets/d98dedae-8527-4d0b-91d8-e81352d4cd28" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p>Figura 2 - Ícone de rodapé indicativo da morada da Livraria sem texto alternativo.</p>
+<p>Recomendamos a revisão das imagens não decorativas para que incluam um texto alternativo, através do elemento <code>aria-label</code>. Por exemplo, no caso das setas de navegação do carrossel “Em Destaque”, um possível texto alternativo poderia ser “Produto anterior” (no caso da seta para a esquerda) e “Produto seguinte” (no caso da seta para a esquerda).</p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-chk10-r-5.2">Requisito 5.2 - O gráfico é acompanhado de uma descrição longa</h4>
+      <div class="requirement-content">
+        <p><span class="status-na"><span class="sr-only">etiqueta: </span>N/A</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>R 5.2 - 10 Aspetos</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-na"><span class="sr-only">etiqueta: </span>N/A</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 5.2</span></div>
+                <div class="issue-content"><blockquote>
+<p>O gráfico é acompanhado de uma descrição longa.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n52">ver requisito 5.2 na lista 10 aspetos</a></p>
+</blockquote>
+<p>Não há representações complexas no site que necessitem de uma descrição longa.</p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-chk10-r-7.1">Requisito 7.1 - Deve ser possível ativar os botões de controlo do leitor quer com o rato quer com o teclado</h4>
+      <div class="requirement-content">
+        <p><span class="status-na"><span class="sr-only">etiqueta: </span>N/A</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>R 7.1 - 10 Aspetos</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-na"><span class="sr-only">etiqueta: </span>N/A</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 7.1</span></div>
+                <div class="issue-content"><blockquote>
+<p>Deve ser possível ativar os botões de controlo do leitor quer com o rato quer com o teclado.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n71">ver requisito 7.1 na lista 10 aspetos</a></p>
+</blockquote>
+<p>Não foram encontrados players de vídeo dentro do domínio do site.</p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-chk10-r-7.2">Requisito 7.2 - O vídeo ou o áudio deve conter preferencialmente legendas fechadas sincronizadas. Caso não seja possível, no mínimo, deve disponibilizar-se uma transcrição textual</h4>
+      <div class="requirement-content">
+        <p><span class="status-na"><span class="sr-only">etiqueta: </span>N/A</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>NA</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-na"><span class="sr-only">etiqueta: </span>N/A</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 7.2</span></div>
+                <div class="issue-content"><blockquote>
+<p>O vídeo ou áudio deve conter preferencialmente legendas fechadas sincronizadas.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n72">ver requisito 7.2 na lista 10 aspetos</a></p>
+</blockquote>
+<p>Não foram encontrados players de vídeo dentro do domínio do site.</p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-chk10-r-8.2">Requisito 8.2 - Quando se retira a CSS, a informação aparece numa ordem lógica</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Existem conteúdos repetidos em HTML quando se remove o CSS</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-melhoria"><span class="sr-only">etiqueta: </span>melhoria</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 8.2</span></div>
+                <div class="issue-content"><blockquote>
+<p>Quando se retira a CSS, a informação aparece numa ordem lógica.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n82">ver requisito 8.2 na lista 10 aspetos</a></p>
+</blockquote>
+<p>Ao desativar o CSS da página <a href="https://livrariaonline.tndm.pt/politica-de-privacidade-tndmii">Privacidade</a>, é possível observar que o bloco de texto principal aparece duplicado no final da página (Figura 1). Este problema não ocorre apenas nesta página — em várias outras páginas do site, o mesmo bloco de texto também é exibido no final do documento HTML quando o CSS está desativado (Figura 2).</p>
+<p>Recomendamos que este bloco duplicado seja removido do código HTML para evitar lixo informático.</p>
+<img src="https://github.com/user-attachments/assets/9f77e338-d916-4c11-a032-fe2fe233c671" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Parte final da página Privacidade com o CSS desativado.</em></p>
+<img src="https://github.com/user-attachments/assets/6679ec0f-3499-4b32-b752-3d3efa081d36" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 2 - Parte final da Página Inicial com o CSS desativado.</em></p>
+</div>
+              </li>
+            
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Existem conteúdos repetidos em HTML e que são lidos apenas por tecnologias de apoio</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 8.2</span></div>
+                <div class="issue-content"><blockquote>
+<p>Quando se retira a CSS, a informação aparece numa ordem lógica.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n82">ver requisito 8.2 na lista 10 aspetos</a></p>
+</blockquote>
+<p>Na <a href="https://livrariaonline.tndm.pt/">página inicial</a>, quando se retira o CSS, logo no início da página e a seguir ao link “Saltar para Conteúdo”, existe uma hiperligação “Mapa do site” que é lida por leitores de ecrã (Figura 1). Esta hiperligação para a página <a href="https://livrariaonline.tndm.pt/index.php?route=information/sitemap">Mapa do Site</a> já está presente no rodapé do site na lista não ordenada por baixo de “Serviços ao cliente”(Figura 2).</p>
+<p>Recomendamos que a hiperligação “Mapa do site”, que é lida pelos leitores de ecrã logo no início da página (Figura 1), seja removida para evitar lixo informático e para que as tecnologias de apoio, nomeadamente leitores de ecrã, não a leiam repetidamente.</p>
+<img src="https://github.com/user-attachments/assets/94e78958-68b4-4e59-96db-fe18987f2400" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Página inicial com o CSS desativado. Hiperligação &quot;Mapa do site&quot; não está visível na interface mas é lida por leitores de ecrã.</em></p>
+<img src="https://github.com/user-attachments/assets/b4fe4db6-64c0-497b-91de-d2e696ac9d6e" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 2 - Hiperligação &quot;Mapa do Site&quot; visível no rodapé do site.</em></p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-chk10-r-8.3">Requisito 8.3 - Quando se retira a CSS, deve ser possível reconhecer a semântica dos diversos elementos</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Existem elementos com a semântica incorreta (Calendário)</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 8.3</span></div>
+                <div class="issue-content"><blockquote>
+<p>Quando se retira o CSS, deve ser possível reconhecer a semântica dos diversos elementos.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n83">ver requisito 8.3 na lista 10 aspetos</a></p>
+</blockquote>
+<p>Na página <a href="https://livrariaonline.tndm.pt/index.php?route=account/return/add">Pedidos de Devolução</a>, foi identificado que o widget de calendário não segue uma estrutura semântica adequada.</p>
+<p>Ao testar este componente com um leitor de ecrã, verificámos que a navegação por teclado dentro da janela modal do calendário não está devidamente implementada. Não é possível navegar entre os dias do calendário utilizando as setas de direção do teclado, nem percorrer apenas os elementos interativos através das teclas Tab e Shift + Tab.</p>
+<p>Constatámos também que o foco não fica restrito à modal do calendário – é possível continuar a navegar com o teclado por outros elementos do site, mesmo com o calendário aberto (Figura 1).</p>
+<img src="https://github.com/user-attachments/assets/e3da32cb-f8ac-472b-b929-8818464061b7" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Apesar de a modal de calendário estar aberta, é possível continuar a navegar por outros elementos do site.</em></p>
+<p>As setas de navegação existentes dentro do calendário, usadas para avançar ou recuar entre meses, não apresentam indicação visual clara da sua função e não possuem descrição alternativa que permita às tecnologias de apoio — como leitores de ecrã — comunicar corretamente o seu propósito ao utilizador.</p>
+<p>Adicionalmente, o componente não transmite qualquer informação sobre o seu estado – não comunica quando a janela modal do calendário é aberta (expandida) nem quando é fechada (recolhida).</p>
+<p>Para mais informações sobre como desenvolver um widget de calendário acessível, recomendamos a consulta do recurso <a href="https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/#rps_label">Date Picker Dialog Example</a> da W3C.</p>
+</div>
+              </li>
+            
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Existem elementos com a semântica incorreta (Cards)</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 8.3</span></div>
+                <div class="issue-content"><blockquote>
+<p>Quando se retira o CSS, deve ser possível reconhecer a semântica dos diversos elementos.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n83">ver requisito 8.3 na lista 10 aspetos</a></p>
+</blockquote>
+<p>Nas páginas de venda de produtos — como a página <a href="https://livrariaonline.tndm.pt/edicoes-tndm-ii/textos-de-teatro">Textos de Teatro</a> — verificámos que a estrutura dos cartões de produto não segue uma estrutura semântica adequada.</p>
+<p>Tal como referido anteriormente no ponto 5.1 da Checklist dos 10 Aspetos Funcionais, as imagens dos produtos têm o mesmo texto alternativo no link da imagem — elemento <code>&lt;a&gt;</code> — e no texto que apresenta o nome do livro, o que faz com que o leitor de ecrã anuncie duas vezes o nome do livro. Recomendamos que a fotografia do produto seja tratada como uma imagem decorativa e que seja colocado um texto alternativo nulo (<code>alt=””</code>) ou que seja adicionada a imagem via CSS.</p>
+<p>Em produtos em promoção, como por exemplo no livro “A Farsa de Inês Pereira”, o leitor de ecrã anuncia o preço promocional e o preço original seguidos e sem contexto (“10,80€ 12,00€&quot;), o que pode ser confuso para quem está a navegar pela página através de leitor de ecrã (<em>Figura 1</em>).</p>
+<img src="https://github.com/user-attachments/assets/4758562e-a7a6-4a09-b52c-d2f3731af2d7" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Página Textos de Teatro onde nos produtos em promoção, como no livro &quot; A Farsa de Inês Pereira&quot;, o preço promocional e o preço original são lidos de seguida e sem contexto.</em></p>
+<p>Uma solução seria editar o texto por forma a indicar visualmente, e para tecnologias de apoio, qual é o preço promocional e qual é o preço original. Por exemplo, “Preço promocional: 10,80€” e “Preço original: 12,00€”.  Em alternativa, outra solução seria adicionar dois comandos, através da classe <code>.sr-only</code>, para informar utilizadores de leitor de ecrã que o primeiro valor corresponde ao preço promocional (<code>&lt;span class=&quot;sr-only&quot;&gt;Preço promocional:&lt;/span&gt;</code>) e o segundo ao preço original do produto (<code>&lt;span class=&quot;sr-only&quot;&gt;Preço original:&lt;/span&gt;</code>).</p>
+<p>Para mais informações podem consultar o modelo <a href="https://getbootstrap.com/docs/4.3/utilities/stretched-link/">Stretched link do Bootstrap 5</a>.</p>
+</div>
+              </li>
+            
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Existem elementos com a semântica incorreta (Carrossel)</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 8.3</span></div>
+                <div class="issue-content"><blockquote>
+<p>Quando se retira o CSS, deve ser possível reconhecer a semântica dos diversos elementos.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n83">ver requisito 8.3 na lista 10 aspetos</a></p>
+</blockquote>
+<p><strong>Existem elementos com a semântica incorreta</strong>  </p>
+<p>Os elementos da página devem estar identificados com a semântica de HTML certa para que sejam interpretados corretamente pelas tecnologias de apoio.</p>
+<p><strong>Carrossel</strong><br>Ao inspecionar o carrossel “Em Destaque”, presente na <a href="https://livrariaonline.tndm.pt/">página inicial</a>, é possível verificar que este não está implementado de forma semanticamente correta. Os slides que constituem o carrossel estão implementados como elementos div em vez de estarem organizados como lista não ordenada(<code>&lt;ul&gt; &lt;li&gt;</code>) (Figura 15), o que facilitaria a compreensão e a navegação por parte de utilizadores de tecnologias assistivas. Os controlos do carrossel (setas de navegação) estão também estruturados como elementos <code>div</code> em vez de botões. O carrossel reproduz automaticamente os slides e não disponibiliza controlos para iniciar ou parar essa reprodução.<br>Recomendamos que optem pela implementação de um carrossel que seja exclusivamente controlado pelo utilizador, desativando a reprodução automática. Em alternativa, manter a reprodução automática mas acrescentar um controlo visível e acessível que permita pausar e retomar o avanço dos slides.</p>
+<img src="https://github.com/user-attachments/assets/4860439e-13f2-414f-bbc3-ea323f6bb809" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+<p><em>Figura 1 - Carrossel &quot;Em Destaque&quot;, na página inicial, estruturado através de elementos div.</em></p>
+<p>Recomendamos que seja revista a estrutura semântica destes componentes para garantir o correto funcionamento dos mesmos. Para mais informações é possível consultar os artigos <a href="https://www.w3.org/WAI/tutorials/carousels/working-example/">Carousel Structure</a> e <a href="https://www.w3.org/WAI/ARIA/apg/patterns/carousel/">Carousel (Slide Show or Image Rotator) Pattern</a> do W3C.</p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-chk10-r-9.2">Requisito 9.2 - Quando uma caixa de diálogo está aberta, a navegação com teclado (Browser ou Tecnologia de apoio) tem de ficar circunscrita aos elementos que compõem a caixa de diálogo</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>O foco não está limitado ao menu</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 9.2</span></div>
+                <div class="issue-content"><blockquote>
+<p>Quando uma caixa de diálogo está aberta, a navegação com teclado (Browser ou Tecnologia de apoio) tem de ficar circunscrita aos elementos que compõem a caixa de diálogo<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n92">ver requisito 9.2 na lista 10 aspetos</a></p>
+</blockquote>
+<p>Manter o foco do teclado dentro da caixa de diálogo garante que os utilizadores possam interagir com o seu conteúdo sem distrações de outros elementos na página. Este controlo do foco facilita a navegação, ajudando os utilizadores a compreenderem a sua posição na interface.</p>
+<p>Quando o menu está aberto em resoluções de tablet e mobile, é possível continuar a percorrer com o leitor de ecrã o conteúdo do website que se encontra abaixo do menu (Figura 1).</p>
+<p>Recomendamos que ao utilizar o teclado ou leitor de ecrã, o foco seja limitado apenas para o conteúdo da modal, neste caso, o menu. Enquanto o menu estiver aberto, a navegação por outras opções do website não deve ser possível.</p>
+<img src="https://github.com/user-attachments/assets/f0bd5200-620d-4c57-8bfe-8827eeab35c2" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Com a modal de menu aberta em resolução mobile, o leitor de ecrã continua a aceder ao restante conteúdo do site.</em></p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-chk10-r-9.3">Requisito 9.3 - A caixa de diálogo tem de ter um mecanismo que permita sair ou fechar a caixa, quer através de teclado quer através de um dispositivo apontador</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>O botão fechar não está acessível pelo leitor de ecrã</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk 10 web</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 9.3</span></div>
+                <div class="issue-content"><blockquote>
+<p>A caixa de diálogo tem de ter um mecanismo que permita sair ou fechar a caixa, quer através de teclado quer através de um dispositivo apontador<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-10aspetos#n93">ver requisito 9.3 na lista 10 aspetos</a></p>
+</blockquote>
+<p>As modais devem apresentar um botão de fechar claramente visível e acessível através do teclado. Além disso, podem permitir que os utilizadores as fechem pressionando a tecla &#39;Esc&#39;. Essas opções garantem que utilizadores de teclado e leitores de ecrã consigam interagir com a modal de forma eficaz.</p>
+<p>Verificámos que, na janela modal associada ao botão de pesquisa, não é possível aceder ao botão &quot;Fechar” através do leitor de ecrã. Este problema acontece quer na versão desktop quer na versão mobile (Figura 1 e Figura 2).</p>
+<p>Recomendamos rever o botão de &quot;Fechar” desta modal e , adicionalmente, implementar um mecanismo para fechar a modal através da tecla de atalho “ESC”.</p>
+<img src="https://github.com/user-attachments/assets/a716b9fc-d186-4a57-a9c7-a7f5cac2f16e" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p>Figura 1 - Não é possível aceder ao botão de fechar através do leitor de ecrã. Teste em desktop.</p>
+<img src="https://github.com/user-attachments/assets/d5f6d51e-a5c3-4fdc-a457-706c1eedb1f3" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p>Figura 2 - O botão de fechar não está acessível através do leitor de ecrã na versão mobile do site.</p>
+</div>
+              </li>
+            </ul></div>
+      </div>
+
+      
+      <div class="checklist-section">
+        <h3 id="checklist-conteudo">Checklist Conteúdo</h3>
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        
+    <p><strong>Nível de conformidade:</strong></p>
+    <ul>
+      <li><strong>Checklist Conteúdo</strong>: 64.7% (11/17)
+        <ul>
+          <li>Requisitos avaliados: 17 (17 aplicáveis)</li>
+          <li>Requisitos OK: 11</li>
+          <li>Requisitos NOK: 6</li>
+          
+        </ul>
+      </li>
+    </ul>
+    
+        
+        <h4 class="requirement-title" id="req-conteudo-r-1.1">Requisito 1.1 - O sítio Web apresenta um resumo breve do seu propósito, visível sem se fazer scroll</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Não existe um resumo do propósito do site na homepage</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk conteúdo</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 1.1</span></div>
+                <div class="issue-content"><blockquote>
+<p>O sítio Web apresenta um resumo breve do seu propósito, visível sem fazer scroll.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-conteudo#n11">ver requisito 1.1 na lista Conteúdo</a></p>
+</blockquote>
+<p>O propósito do website difere da missão ou do objetivo da entidade. O propósito deve transmitir, de forma clara, o que o utilizador pode efetivamente encontrar e realizar no website. Esse propósito deve ser imediatamente visível na página, sem ser necessário fazer scroll, avançar no slideshow, entre outros.</p>
+<p>Não existe qualquer resumo do propósito na Homepage da<a href="https://livrariaonline.tndm.pt/index.php?route=common/home"> Livraria Online do Teatro Nacional D.Maria II</a>, pelo que deve ser adicionado (Figura 1).</p>
+<p>Como referência de uma boa prática, é possível verificar no website <a href="https://www.acessibilidade.gov.pt/">acessibilidade.gov</a> que o seu propósito está escrito no topo da página (Figura 2).</p>
+<img src="https://github.com/user-attachments/assets/c42c3cb8-72cf-4454-902a-be6fe4c2a04a" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Homepage não mostra um breve resumo do propósito do website.</em></p>
+<img src="https://github.com/user-attachments/assets/d5f21a56-b3c5-4a12-8e55-44d00e03f50f" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 2 - Página inicial do site <a href="https://www.acessibilidade.gov.pt/">acessibilidade.gov</a> que mostra o propósito do website no topo da página.</em></p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-conteudo-r-1.2">Requisito 1.2 - Os termos mais complexos têm uma definição agregada</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Não existe um glossário para termos complexos</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk conteúdo</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 1.2</span></div>
+                <div class="issue-content"><blockquote>
+<p>Os termos mais complexos têm uma definição agregada.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-conteudo#n12">ver requisito 1.2 na lista Conteúdo</a></p>
+</blockquote>
+<p>Em sites com termos técnicos ou complexos, que sejam difíceis de compreender, deve existir uma página de glossário com as definições dessas palavras. O glossário deve apresentar a definição dos termos e conceitos de forma clara e breve, para que seja facilmente compreensível pelos utilizadores.</p>
+<p>Não foi encontrado um glossário no website da <a href="https://livrariaonline.tndm.pt/">Livraria Online do Teatro Nacional D.Maria II</a>, apesar de existirem termos técnicos em várias páginas.</p>
+<p>Recomenda-se a criação de uma página com um glossário que agregue os termos complexos e a sua definição. Pode ser utilizado como referência o glossário do site da Acessibilidade: <a href="https://www.acessibilidade.gov.pt/glossario/">https://www.acessibilidade.gov.pt/glossario/</a>.</p>
+<img src="https://github.com/user-attachments/assets/e1c42a57-cb04-47df-a655-26d37a10b5dc" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Página <a href="https://livrariaonline.tndm.pt/politica-de-privacidade-tndmii">Privacidade</a> que contém termos complexos como &quot;pessoa colectiva&quot; ou &quot;consentimento informado&quot;.</em></p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-conteudo-r-1.3">Requisito 1.3 - Cada bloco de conteúdo contém a sua data de atualização</h4>
+      <div class="requirement-content">
+        <p><span class="status-ok"><span class="sr-only">etiqueta: </span>OK</span> (no entanto contém 1 melhoria que se recomenda efetuar)</p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Há datas de atualização com tamanho igual ao conteúdo de texto</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk conteúdo</span><span class="label-tag label-melhoria"><span class="sr-only">etiqueta: </span>melhoria</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 1.3</span></div>
+                <div class="issue-content"><blockquote>
+<p>Cada bloco de conteúdo contém a sua data de atualização.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-conteudo#n13">ver requisito 1.3 na lista Conteúdo</a></p>
+</blockquote>
+<p>Deve-se garantir que a informação secundária é legível e diferente do restante texto envolvente, colocando um tamanho de fonte inferior 2 pontos ao corpo de texto.</p>
+<p>Na página <a href="https://livrariaonline.tndm.pt/ecodramaturgia">Ecodramaturgia</a>, a data de atualização está com um tamanho de fonte igual ao conteúdo do texto, de 16px (ver Figuras 1 e 2). Recomenda-se alterar para um tamanho que seja no mínimo 2pt menor que o conteúdo, e que não seja menor que 12px.</p>
+<img src="https://github.com/user-attachments/assets/8b89abef-f040-42d6-8e16-61a5c1e01878" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Página <a href="https://livrariaonline.tndm.pt/ecodramaturgia">Ecodramaturgia</a> onde o tamanho do texto da data de atualização é de 16px.</em></p>
+<img src="https://github.com/user-attachments/assets/b5b1e49f-817f-4dd2-8bfe-642e7a4786dd" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 2 - Página <a href="https://livrariaonline.tndm.pt/ecodramaturgia">Ecodramaturgia</a> onde o tamanho do corpo de texto é de 16px (igual ao tamanho da data de atualização).</em></p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-conteudo-r-2.3">Requisito 2.3 - Blocos e linhas de texto com largura não superior a 100 caracteres</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Existem blocos de texto com mais de 100 caracteres por linha</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk conteúdo</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 2.3</span></div>
+                <div class="issue-content"><blockquote>
+<p>Blocos e linhas de texto com largura não superior a 100 caracteres.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-conteudo#n23">ver requisito 2.3 na lista Conteúdo</a></p>
+</blockquote>
+<p>Para assegurar uma boa leitura, as linhas de texto devem ter até 80 caracteres (incluindo espaços). No limite, podem ir até aos 100 caracteres (incluindo espaços).</p>
+<p>Na resolução desktop da página <a href="https://livrariaonline.tndm.pt/politica-de-privacidade-tndmii">Privacidade</a>, há blocos de texto que ultrapassam os 100 caracteres por linha. Por exemplo, como se mostra na Figura 1, a terceira linha do texto principal — <em>“utilizador. Esta declaração de privacidade(…)”</em> — contém 104 caracteres.</p>
+<p>Recomenda-se que seja definida uma largura máxima para as caixas de texto (<code>max-width</code>, em CSS), com unidades relativas ao tamanho de fonte (unidades em ou rem) para garantir que não é ultrapassado o número máximo de caracteres por linha.</p>
+<img src="https://github.com/user-attachments/assets/d87f5c32-86be-4ae1-a967-4afcb3b40c9e" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Análise da versão desktop da página <a href="https://livrariaonline.tndm.pt/politica-de-privacidade-tndmii">Privacidade</a> através da extensão do browser Character Counter. A terceira linha do texto principal contém 104 caracteres.</em></p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-conteudo-r-3.1">Requisito 3.1 - Nenhum nível de navegação tem mais de 9 opções</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>O menu principal contém itens com mais de 9 subopções</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk conteúdo</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 3.1</span></div>
+                <div class="issue-content"><blockquote>
+<p>Nenhum nível de navegação tem mais de 9 opções.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-conteudo#n31">ver requisito 3.1 na lista Conteúdo</a></p>
+</blockquote>
+<p>As <a href="https://www.nngroup.com/videos/number-items-navigation-menu/">boas práticas</a> recomendam que nenhum nível do menu deve ter mais do que 9 opções. A navegação deve ser equilibrada e não deve exigir muito esforço cognitivo por parte dos utilizadores, que normalmente retêm entre 5 a 9 opções na memória de curto prazo.</p>
+<p>Na opção do menu principal “Outras Edições” existem 22 subopções, o que significa que está acima do número de opções recomendado (Figura 1).</p>
+<p>Deve ser feita uma revisão da arquitetura de informação do menu de forma a garantir que não ultrapasse 9 opções em cada nível do mesmo.</p>
+<img src="https://github.com/user-attachments/assets/c1353a07-5d03-414a-a2a9-bd436fb3078f" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Opção do menu principal &quot;Outras Edições&quot; tem 22 subopções.</em></p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-conteudo-r-4.1">Requisito 4.1 - Os documentos longos têm um índice no topo com hiperligações internas para o mesmo</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Não existe um índice no topo de uma página longa</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk conteúdo</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 4.1</span></div>
+                <div class="issue-content"><blockquote>
+<p>Os documentos longos têm um índice no topo com hiperligações internas para o mesmo.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-conteudo#n41">ver requisito 4.1 na lista Conteúdo</a></p>
+</blockquote>
+<p>Para facilitar a navegação em páginas longas, com várias secções de conteúdos, deve existir um índice no topo da página. Esse índice deve conter hiperligações para as várias seções que existem.</p>
+<p>Nas páginas consideradas longas, como as páginas <a href="https://livrariaonline.tndm.pt/acessibilidade">Declaração de Acessibilidade e Usabilidade</a> e <a href="https://livrariaonline.tndm.pt/politica-de-privacidade-tndmii">Privacidade</a>  (ver Figura 1), não existem um índice com hiperligações para cada secção interna dessa página.</p>
+<p>Recomendamos adicionar um índice com hiperligações para cada secção interna.</p>
+<img src="https://github.com/user-attachments/assets/e951cc4c-b001-4b3c-8fa6-fa2126820107" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Página Privacidade, uma página longa, sem índice no topo da página.</em></p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-conteudo-r-5.2">Requisito 5.2 - Os elementos interativos têm uma dimensão mínima de 44px CSS (44 pontos) (vertical e horizontal)</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Há elementos interativos com área clicável que não cumprem a dimensão mínima exigida (44px de altura e largura)</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk conteúdo</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 5.2</span></div>
+                <div class="issue-content"><blockquote>
+<p>Os elementos interativos têm uma dimensão mínima de 44px CSS (44 pontos), vertical e horizontal.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-conteudo#n52">ver requisito 5.2 na lista Conteúdo</a></p>
+</blockquote>
+<p>Para garantir que os utilizadores interagem devidamente com um elemento interativo (botões, imagens-link...), a área clicável desse elemento deve ser, no mínimo, 44px de largura e 44px de altura.</p>
+<p>No breadcrumb presente nas páginas de interior, a imagem-link representativa da página inicial tem uma área clicável com 27px de altura e 28px de largura, não cumprindo as dimensões mínimas necessárias. (Figura 1)</p>
+<p>Devem garantir que os elementos interativos têm uma altura e largura igual ou superior a 44px de área clicável, mesmo que o ícone/imagem tenha um tamanho inferior.</p>
+<img src="https://github.com/user-attachments/assets/a75aae10-f6e9-4fcf-9a2a-f3de709323e1" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+
+<p><em>Figura 1 - Verificação das medidas do ícone de página inicial no breadcrumb da página <a href="https://livrariaonline.tndm.pt/edicoes-tndm-ii/textos-de-teatro">Textos de Teatro</a> através da extensão Web Developer. A área clicável desta imagem-link é de 27px de altura por 28px de largura.</em></p>
+</div>
+              </li>
+            </ul></div>
+      </div>
+
+      
+      <div class="checklist-section">
+        <h3 id="checklist-transacao">Checklist Transação</h3>
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        
+    <p><strong>Nível de conformidade:</strong></p>
+    <ul>
+      <li><strong>Checklist Transação</strong>: 60.0% (6/10)
+        <ul>
+          <li>Requisitos avaliados: 13 (3 N/A excluídos, 10 aplicáveis)</li>
+          <li>Requisitos OK: 6</li>
+          <li>Requisitos NOK: 4</li>
+          <li>Requisitos N/A: 3</li>
+        </ul>
+      </li>
+    </ul>
+    
+        
+        <h4 class="requirement-title" id="req-transacao-r-1.2">Requisito 1.2 - Os formulários com mais de 2 ecrãs de altura devem ser distribuídos por várias páginas</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Existem formulários longos sem divisão por passos</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk transação</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 1.2</span></div>
+                <div class="issue-content"><blockquote>
+<p>Os formulários com mais de 2 ecrãs de altura devem ser distribuídos por várias páginas.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-transacao#n12">ver requisito 1.2 na lista Transação</a></p>
+</blockquote>
+<p>Em formulários longos, com mais de 2 ecrãs de altura, deve-se garantir que a informação é pedida ao utilizador de forma faseada, dividindo os passos em várias páginas ou secções. No caso de formulários curtos, não é necessário fazer esta divisão. </p>
+<p>Nas páginas <a href="https://livrariaonline.tndm.pt/index.php?route=account/register">Registo de Conta de Cliente</a> e <a href="https://livrariaonline.tndm.pt/index.php?route=account/return/add">Pedidos de Devolução</a>, existem formulários longos onde os campos são todos mostrados numa única página.</p>
+<p>Recomendamos a estrutura dos formulários mais longos, de forma a segmentar os passos em várias páginas ou secções.</p>
+<img src="https://github.com/user-attachments/assets/4d0a7f6b-9726-4540-bcaa-afca2af30520" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p>Figura 1 - Página <a href="https://livrariaonline.tndm.pt/index.php?route=account/register">Registo de Conta Cliente</a>.</p>
+<img src="https://github.com/user-attachments/assets/733f60f8-16e6-47ae-8c68-ea36b2da58f0" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p>Figura 2 - Página <a href="https://livrariaonline.tndm.pt/index.php?route=account/return/add">Pedidos de Devolução</a>.</p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-transacao-r-1.3">Requisito 1.3 - Os formulários com mais de uma página têm a sequência de passos ilustrada</h4>
+      <div class="requirement-content">
+        <p><span class="status-na"><span class="sr-only">etiqueta: </span>N/A</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>R 1.3 - Transação</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk transação</span><span class="label-tag label-na"><span class="sr-only">etiqueta: </span>N/A</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 1.3</span></div>
+                <div class="issue-content"><blockquote>
+<p>Os formulários com mais de uma página têm a sequência de passos ilustrada.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-transacao#n13">ver requisito 1.3 na lista Transação</a></p>
+</blockquote>
+<p>Não foram encontrados formulários com mais de uma página dentro do domínio do site.</p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-transacao-r-2.1">Requisito 2.1 - O tamanho dos campos deve refletir o tamanho previsível dos dados</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>O tamanho dos campos não reflete o tamanho previsível dos dados</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk transação</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 2.1</span></div>
+                <div class="issue-content"><blockquote>
+<p>O tamanho dos campos deve refletir o tamanho previsível dos dados.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-transacao#n21">ver requisito 2.1 na lista Transação</a></p>
+</blockquote>
+<p>A largura do próprio campo deve refletir o tamanho previsível dos dados a preencher, principalmente em campos de escrita livre em que o utilizador deve inserir os seus próprios dados. </p>
+<p>No caso do formulário da página de <a href="https://livrariaonline.tndm.pt/index.php?route=account/register">Registo de Conta Cliente</a>, a largura dos campos não reflete o tamanho previsível dos dados. É possível observar que os campos do NIF, código postal e cidade tem uma largura demasiado extensa para a informação a inserir, induzindo que se pode escrever mais (Figura 1).</p>
+<p>Recomendamos rever todos os campos dos formulários do site para garantir que a sua largura corresponde ao tipo de informação a preencher por forma a evitar confusões sobre o conteúdo esperado.</p>
+<img src="https://github.com/user-attachments/assets/ff7aca15-f6cd-4658-9941-47be1a65b383" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p>Figura 1 - Página <a href="https://livrariaonline.tndm.pt/index.php?route=account/register">Registo de Conta Cliente</a> onde todos os campos têm a mesma largura independente do tamanho dos dados.</p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-transacao-r-2.2">Requisito 2.2 - É usada revelação progressiva em vez de campos inativos</h4>
+      <div class="requirement-content">
+        <p><span class="status-na"><span class="sr-only">etiqueta: </span>N/A</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>R 2.2 - Transação</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk transação</span><span class="label-tag label-na"><span class="sr-only">etiqueta: </span>N/A</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 2.2</span></div>
+                <div class="issue-content"><blockquote>
+<p>É usada revelação progressiva em vez de campos inativos.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-transacao#n22">ver requisito 2.2 na lista Transação</a></p>
+</blockquote>
+<p>Analisámos os formulários do site e constatamos que não têm campos inativos.</p>
+<img src="https://github.com/user-attachments/assets/eb1236e3-db86-4c11-8160-4bc56fec9fdd" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p>Figura 1 - Página <a href="https://livrariaonline.tndm.pt/index.php?route=account/return/add">Pedidos de Devolução</a>.</p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-transacao-r-4.2">Requisito 4.2 - As ações destrutivas nunca devem ser permanentes; deve ser sempre possível desfazer a operação</h4>
+      <div class="requirement-content">
+        <p><span class="status-na"><span class="sr-only">etiqueta: </span>N/A</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>R 4.2 - Transação</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk transação</span><span class="label-tag label-na"><span class="sr-only">etiqueta: </span>N/A</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 4.2</span></div>
+                <div class="issue-content"><blockquote>
+<p>As ações destrutivas nunca devem ser permanentes, deve ser sempre possível desfazer a operação.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-transacao#n42">ver requisito 4.2 na lista Transação</a></p>
+</blockquote>
+<p>Não existem formulários com ações destrutivas dentro do domínio do site. </p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-transacao-r-4.3">Requisito 4.3 - As mensagens de erro são claramente identificadas junto aos campos de origem</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Não são devolvidas mensagens de erro junto a cada campo do formulário</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk transação</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 4.3</span></div>
+                <div class="issue-content"><blockquote>
+<p>As mensagens de erro são claramente identificadas junto aos campos de origem.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-transacao#n43">ver requisito 4.3 na lista Transação</a></p>
+</blockquote>
+<p>No formulário da página <a href="https://livrariaonline.tndm.pt/index.php?route=account/register">Registo de Conta Cliente</a>, as mensagens de erro são apresentadas de forma genérica, uma de cada vez e apenas depois de o formulário ser submetido. Para que o formulário seja acessível, cada campo deve exibir a sua própria mensagem de erro, a indicar claramente o problema detetado, de forma visível e compatível com leitores de ecrã. Ao apresentar uma única mensagem, o utilizador pode não perceber todos os problemas de forma clara e eficiente.</p>
+<p>Além disso, verificou-se que é possível inserir números e símbolos em campos destinados a texto, como “Nome” e “Apelido”, bem como introduzir letras em campos que deveriam aceitar apenas números, como “NIF” e “Telefone” (Figura 1)</p>
+<p>Recomendamos a revisão dos formulários do site para garantir que devolvem mensagens de erro junto aos campos com dados incorretos ou não preenchidos e que essas mensagens indiquem também o formato correto de preenchimento dos dados - por exemplo, “Introduza apenas letras” ou “Introduza 9 dígitos”.</p>
+<img src="https://github.com/user-attachments/assets/10513427-fdc2-4154-b5aa-2906115352b3" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 1 - Formulário <a href="https://livrariaonline.tndm.pt/index.php?route=account/register">Registo de Conta Cliente</a> antes da sua submissão através do botão &quot;Continuar&quot;.</em></p>
+<img src="https://github.com/user-attachments/assets/68eb5d57-604c-4115-b198-9e2a35f39429" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p><em>Figura 2 - Página <a href="https://livrariaonline.tndm.pt/index.php?route=account/register">Registo de Conta Cliente</a> após a submissão do formulário. Embora existam vários erros de preenchimento, apenas é exibida uma mensagem de erro — “Inclua um ‘@’ no endereço de email. Falta um ‘@’ em ‘$#987510=’” —associada ao campo de email.</em></p>
+</div>
+              </li>
+            </ul></div>
+        <h4 class="requirement-title" id="req-transacao-r-4.4">Requisito 4.4 - As mensagens de erro devem mostrar os passos concretos para a resolução dos mesmos</h4>
+      <div class="requirement-content">
+        <p><span class="status-nok"><span class="sr-only">etiqueta: </span>NOK</span></p>
+        <p>Lista de evidências recolhidas:</p>
+    <ul class="evidence-list">
+              <li class="evidence-item">
+                <p><span class="visually-hidden">evidência: </span><strong>Falta de mensagens de erro específicas por campo</strong></p>
+                <div class="evidence-labels"><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk transação</span><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span><span class="label-tag label-requisito"><span class="sr-only">etiqueta: </span>R 4.4</span></div>
+                <div class="issue-content"><blockquote>
+<p>As mensagens de erro devem mostrar os passos concretos para a resolução dos mesmos.<br>– <a href="https://amagovpt.github.io/kit-selo/checklists/checklist-transacao#n44">ver requisito 4.4 na lista Transação</a></p>
+</blockquote>
+<p>No formulário da página <a href="https://livrariaonline.tndm.pt/index.php?route=account/register">Registo de Conta Cliente</a> não são apresentadas mensagens de erro específicas junto a cada campo com erros. Para garantir uma maior clareza, cada campo deve exibir a sua própria mensagem de erro, descrevendo claramente o problema detetado, de forma visível e compatível com leitores de ecrã.</p>
+<p>Como mostrado na Figura 1, mesmo existindo vários campos com dados incorretos — como “Nome” e “Apelido” — apenas é mostrada uma mensagem de erro, associada ao campo “E-mail”. Além disso, “Nome” e “Apelido” permitem a introdução de números e símbolos, o que não é adequado para estes campos.</p>
+<p>Recomenda-se a revisão dos formulários do site para que todos os campos com dados incorretos ou não preenchidos apresentem mensagens de erro claras e localizadas junto ao respetivo campo. Essas mensagens devem também indicar o formato correto de preenchimento. Por exemplo, no campo “Código Postal” pode ser apresentada a instrução: “Insira um código postal válido, utilizando o formato 0000-000.”</p>
+<img src="https://github.com/user-attachments/assets/26173fe7-f095-4ba2-9e1b-8738d3d836e7" alt="Image" class="evidence-image" style="max-width: 100%; height: auto; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px;">
+
+
+
+<p>Figura 1 - Página <a href="https://livrariaonline.tndm.pt/index.php?route=account/register">Registo de Conta Cliente</a> depois da submissão do formulário.</p>
+</div>
+              </li>
+            </ul></div>
+      </div>
+      
+      
+    </section>
+
+
+
+         
+
+         <section id="etiquetas" class="mb-5 report-section">
+       <h2 id="req-etiquetas">Significado das etiquetas utilizadas</h2>
+      <ul>
+                                   <li><span class="label-tag label-ok"><span class="sr-only">etiqueta: </span>OK</span> - status OK</li>
+                                   <li><span class="label-tag label-melhoria"><span class="sr-only">etiqueta: </span>melhoria</span> - status OK, mas pode melhorar</li>
+                                   <li><span class="label-tag label-nok"><span class="sr-only">etiqueta: </span>NOK</span> - status Not OK</li>
+                                   <li><span class="label-tag label-na"><span class="sr-only">etiqueta: </span>N/A</span> - status Não Aplicável</li>
+                                   <li><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk10 web</span> - checklist 10 Aspetos críticos de acessibilidade funcional</li>
+                                   <li><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk conteúdo</span> - checklist Conteúdo</li>
+                                   <li><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>chk transação</span> - checklist Transação</li>
+                                   <li><span class="label-tag label-outras"><span class="sr-only">etiqueta: </span>outras violações</span> - permite construir o subcapítulo "Outras violações", o qual integra o capítulo "Avaliações manuais"</li>
+                                   <li><span class="label-tag label-declaracao"><span class="sr-only">etiqueta: </span>dec a11y</span> - permite construir o capítulo "Declaração de acessibilidade e usabilidade"</li>
+                                   <li><span class="label-tag label-auto"><span class="sr-only">etiqueta: </span>av auto</span> - permite construir o capítulo "Avaliação automática"</li>
+                                   <li><span class="label-tag label-checklist"><span class="sr-only">etiqueta: </span>testes usabilidade</span> - permite construir o capítulo "Testes de usabilidade"</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <footer class="mt-5 pt-4 border-top text-center text-muted">
+    <div class="container">
+      <p>© 2025 ARTE - Agência para a Reforma Tecnológica do Estado, I.P. Todos os Direitos Reservados.</p>
+      <p><em lang="en">GitReports v1.0</em> - relatório gerado automaticamente a partir dos <em lang="en">issues</em> do GitHub</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
