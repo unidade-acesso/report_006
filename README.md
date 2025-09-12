@@ -1,10 +1,17 @@
 # Livraria Online do Teatro Nacional D. Maria II
 
+- Data de criação: 
 - URL: https://livrariaonline.tndm.pt
 - Proprietário: Teatro Nacional D. Maria II
-- Candidatura a:  Selo Prata
+- Candidatura:  Prata
   
-## Consulte aqui: [Relatório da Auditoria da Livraria Online do Teatro Nacional D. Maria II (Setembro 2025)](https://unidade-acesso.github.io/report_006/relatorio_report_006.html) 
+## Relatório de Auditoria
 
-### Recursos de apoio ao relatório:
-- [Guia de utilização do relatório de auditorias](https://unidade-acesso.github.io/reports/guiao.html)
+Consulte aqui a última atualização: [Relatório da Livraria online do Teatro Nacional D. Maria II](relatorio_report_006.html)
+
+<details>
+  <summary>Histórico de atualizações</summary>
+  <ul aria-label="lista de relatórios já efetuados">
+    <li><a href="12092025_report_006.html">(12/09/2025). Relatório da Livraria online do Teatro Nacional D. Maria II</li>
+  </ul>
+</details>
