@@ -12,6 +12,6 @@ Consulte aqui a última atualização: [Relatório da Livraria online do Teatro 
 <details>
   <summary>Histórico de atualizações</summary>
   <ul aria-label="lista de relatórios já efetuados">
-    <li><a href="12092025_report_006.html">(12/09/2025). Relatório da Livraria online do Teatro Nacional D. Maria II</li>
+    <li><a href="12092025_report_006.html">(12/09/2025). Relatório da Livraria online do Teatro Nacional D. Maria II</a></li>
   </ul>
 </details>
